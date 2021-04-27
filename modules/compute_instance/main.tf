@@ -46,7 +46,7 @@ resource "google_compute_instance_from_template" "compute_instance" {
   zone     = var.zone == null ? data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)] : var.zone
 
   network_interface {
-    network            = var.network
+    network            = var.vpcnetwroks
     subnetwork         = var.subnetwork
     subnetwork_project = var.subnetwork_project
     network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
