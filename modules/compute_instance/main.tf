@@ -30,8 +30,8 @@ locals {
 ###############
 
 data "google_compute_zones" "available" {
-  project = local.project_id
-  region  = var.region
+  project = local.dynamic-fulcrum-303503
+  region  = var.us-central1
 }
 
 #############
@@ -39,10 +39,10 @@ data "google_compute_zones" "available" {
 #############
 
 resource "google_compute_instance_from_template" "compute_instance" {
-  provider = google
-  count    = local.num_instances
+  provider = "google"
+  count    = local.2
   name     = "${local.hostname}-${format("%03d", count.index + 1)}"
-  project  = local.project_id
+  project  = local.dynamic-fulcrum-303503
   zone     = var.zone == null ? data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)] : var.zone
 
   network_interface {
