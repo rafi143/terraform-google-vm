@@ -40,15 +40,15 @@ data "google_compute_zones" "available" {
 
 resource "google_compute_instance_from_template" "compute_instance" {
   provider = "google"
-  count    = local.2
+  count    = 2
   name     = "${local.hostname}-${format("%03d", count.index + 1)}"
   project  = local.dynamic-fulcrum-303503
   zone     = var.zone == null ? data.google_compute_zones.available.names[count.index % length(data.google_compute_zones.available.names)] : var.zone
 
   network_interface {
-    network            = var.vpcnetwroks
-    subnetwork         = var.subnetwork
-    subnetwork_project = var.subnetwork_project
+    network            = var.default
+    subnetwork         = var.default
+    subnetwork_project = var.new project
     network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
     dynamic "access_config" {
       for_each = var.access_config
